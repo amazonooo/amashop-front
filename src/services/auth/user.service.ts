@@ -4,12 +4,12 @@ import { axiosWithAuth } from '@/api/api.interceptors'
 
 class UserService {
 	async getProfile() {
-		const repsonse = await axiosWithAuth<IUser>({
+		const { data } = await axiosWithAuth<IUser>({
 			url: API_URL.users('/profile'),
 			method: 'GET'
 		})
 
-		return repsonse
+		return data
 	}
 
 	async toggleFavorite(productId: string) {

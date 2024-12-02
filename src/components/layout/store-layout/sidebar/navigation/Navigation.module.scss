@@ -1,0 +1,22 @@
+.wrapper {
+  @apply flex flex-col w-full flex-1 mt-6;
+
+  > .navigation {
+    @apply flex flex-col w-full space-y-3;
+
+    .route {
+      @apply flex items-center gap-x-3 text-slate-500 text-sm font-medium py-2.5 px-3 rounded-lg hover:bg-primary-blue/20 hover:text-primary-blue hover:drop-shadow-sm bg-transparent transition-all duration-300;
+
+      > svg {
+        @apply size-5;
+
+        &:last-child {
+          @apply hover:animate-spin;
+        }
+      }
+      &.active {
+        @apply text-sm text-primary-blue bg-primary-blue/20 hover:bg-primary-blue/20 hover:text-primary-blue/60;
+      }
+    }
+  }
+}

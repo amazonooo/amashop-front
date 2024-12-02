@@ -18,7 +18,7 @@ export default function Auth() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.left}>
-        <Image src='/images/auth.svg' alt='amaShop auth' width={130} height={130} />
+        <Image src='/images/auth.svg' alt='amaShop auth' width={100} height={100} />
       </div>
       <div className={styles.right}>
         <Card className={styles.card}>
