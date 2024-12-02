@@ -5,11 +5,13 @@ import MainStatisticsItem from './MainStatisticsItem'
 export default function MainStatistics() {
   const {main} = useGetStatistics()
 
-  return <div className={styles.main}>
-    {main?.length ? (
-      main.map(item => (
-        <MainStatisticsItem key={item.id} item={item} />
-      ))
-    ) : ''}
-  </div>
+  return (
+		<div className={styles.main}>
+			{main?.length ? (
+				main.map(item => <MainStatisticsItem key={item.id} item={item} />)
+			) : (
+				<div>Нет данных для статистики</div>
+			)}
+		</div>
+	)
 }
