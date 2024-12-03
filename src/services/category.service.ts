@@ -41,7 +41,7 @@ class CategoryService {
 		return updatedCategory
 	}
 
-	async delete(id: string, data: ICategoryInput) {
+	async delete(id: string) {
 		const { data: deletedColor } = await axiosWithAuth<ICategory>({
 			url: API_URL.categories(`/${id}`),
 			method: 'DELETE'

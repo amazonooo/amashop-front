@@ -41,7 +41,7 @@ class ColorService {
 		return updatedColor
 	}
 
-	async delete(id: string, data: IColorInput) {
+	async delete(id: string) {
 		const { data: deletedColor } = await axiosWithAuth<IColor>({
 			url: API_URL.colors(`/${id}`),
 			method: 'DELETE'

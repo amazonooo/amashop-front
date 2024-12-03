@@ -46,7 +46,7 @@ export default function Overview({ data }: OverviewProps) {
 							content={
 								<ChartTooltipContent
 									labelFormatter={formatPrice}
-									indicator='line'
+									indicator='dashed'
 								/>
 							}
 						/>
