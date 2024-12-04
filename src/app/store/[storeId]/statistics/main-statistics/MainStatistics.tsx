@@ -8,7 +8,9 @@ export default function MainStatistics() {
   return (
 		<div className={styles.main}>
 			{main?.length ? (
-				main.map(item => <MainStatisticsItem key={item.id} item={item} />)
+				main.map((item, idx) => (
+					<MainStatisticsItem key={`${item.id}-${idx}`} item={item} />
+				))
 			) : (
 				<div>Нет данных для статистики</div>
 			)}

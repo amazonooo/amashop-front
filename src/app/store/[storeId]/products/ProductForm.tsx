@@ -14,9 +14,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/form-elements/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import ImageUpload from '@/components/ui/form-elements/image-upload/ImageUpload'
 
 interface ProductFormProps {
-  product: IProduct | null
+  product?: IProduct | null
   categories: ICategory[]
   colors: IColor[]
 }
@@ -24,7 +25,7 @@ interface ProductFormProps {
 export default function ProductForm({ product, categories, colors }: ProductFormProps) {
   const { createProduct, isLoadingCreate } = useCreateProduct()
   const { updateProduct, isLoadingUpdate } = useUpdateProduct()
-  const { deleteProduct, isLoadingDelete } = usedeleteProduct()
+  const { deleteProduct, isLoadingDelete } = useDeleteProduct()
 
   const title = product ? 'Изменить данные' : 'Создать товар'
   const description = product ? 'Изменить данные о товаре' : 'Добавить новый товар в магазин'
@@ -51,7 +52,7 @@ export default function ProductForm({ product, categories, colors }: ProductForm
   return (
 		<div className={styles.wrapper}>
 			<div className={styles.header}>
-				<Heading title={title} description={description} />\
+				<Heading title={title} description={description} />
 				{product && (
 					<ConfirmModal handleClick={() => deleteProduct()}>
 						<Button
@@ -66,119 +67,138 @@ export default function ProductForm({ product, categories, colors }: ProductForm
 			</div>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
-					{/* ImagesUpload */}
 					<FormField
 						control={form.control}
-						name='title'
+						name='images'
 						rules={{
-							required: 'Название обязательно'
+							required: 'Загрузите хотя бы одну картинку'
 						}}
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Название</FormLabel>
+							<FormItem className='mt-4'>
+								<FormLabel>Картинки</FormLabel>
 								<FormControl>
-									<Input
-										placeholder='Название товара'
-										disabled={isLoadingCreate || isLoadingUpdate}
-										{...field}
-									/>
+									<ImageUpload isDisabled={isLoadingCreate || isLoadingUpdate} onChange={field.onChange} value={field.value} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-					<FormField
-						control={form.control}
-						name='price'
-						rules={{
-							required: 'Цена обязательна'
-						}}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Цена</FormLabel>
-								<FormControl>
-									<Input
-										placeholder='Название товара'
+					<div className={styles.fields}>
+						<FormField
+							control={form.control}
+							name='title'
+							rules={{
+								required: 'Название обязательно'
+							}}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Название</FormLabel>
+									<FormControl>
+										<Input
+											placeholder='Название товара'
+											disabled={isLoadingCreate || isLoadingUpdate}
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='price'
+							rules={{
+								required: 'Цена обязательна'
+							}}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Цена</FormLabel>
+									<FormControl>
+										<Input
+											placeholder='Название товара'
+											disabled={isLoadingCreate || isLoadingUpdate}
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name='categoryId'
+							rules={{
+								required: 'Категория обязательна'
+							}}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Категория</FormLabel>
+									<Select
 										disabled={isLoadingCreate || isLoadingUpdate}
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name='categoryId'
-						rules={{
-							required: 'Категория обязательна'
-						}}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Категория</FormLabel>
-								<Select
-									disabled={isLoadingCreate || isLoadingUpdate}
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder='Категория товара' />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectGroup>
-											{categories.map(category => (
-												<SelectItem key={category.id} value={category.id}>
-													{category.title}
-												</SelectItem>
-											))}
-										</SelectGroup>
-									</SelectContent>
-								</Select>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name='colorId'
-						rules={{
-							required: 'Цвет обязателен'
-						}}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Цвет</FormLabel>
-								<Select
-									disabled={isLoadingCreate || isLoadingUpdate}
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder='Цвет товара' />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectGroup>
-											{colors.map(color => (
-												<SelectItem key={color.id} value={color.id}>
-													{color.name}
-												</SelectItem>
-											))}
-										</SelectGroup>
-									</SelectContent>
-								</Select>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+										onValueChange={field.onChange}
+										defaultValue={field.value}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Категория товара' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectGroup>
+												{categories.map(category => (
+													<SelectItem key={category.id} value={category.id}>
+														{category.title}
+													</SelectItem>
+												))}
+											</SelectGroup>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
+					<div>
+						<FormField
+							control={form.control}
+							name='colorId'
+							rules={{
+								required: 'Цвет обязателен'
+							}}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Цвет</FormLabel>
+									<Select
+										disabled={isLoadingCreate || isLoadingUpdate}
+										onValueChange={field.onChange}
+										defaultValue={field.value}
+									>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder='Цвет товара' />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											<SelectGroup>
+												{colors.map(color => (
+													<SelectItem key={color.id} value={color.id}>
+														{color.name}
+													</SelectItem>
+												))}
+											</SelectGroup>
+										</SelectContent>
+									</Select>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</div>
 					<FormField
 						control={form.control}
 						name='description'
-            rules={{
-              required: 'Описание обязательно'
-            }}
+						rules={{
+							required: 'Описание обязательно'
+						}}
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Описание</FormLabel>
@@ -194,7 +214,12 @@ export default function ProductForm({ product, categories, colors }: ProductForm
 						)}
 					/>
 
-          <Button variant={'primary'} disabled={isLoadingCreate || isLoadingUpdate}>{action}</Button>
+					<Button
+						variant={'primary'}
+						disabled={isLoadingCreate || isLoadingUpdate}
+					>
+						{action}
+					</Button>
 				</form>
 			</Form>
 		</div>
