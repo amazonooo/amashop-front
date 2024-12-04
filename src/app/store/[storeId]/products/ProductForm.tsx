@@ -17,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea'
 import ImageUpload from '@/components/ui/form-elements/image-upload/ImageUpload'
 
 interface ProductFormProps {
-  product?: IProduct | null
+  product?: IProduct
   categories: ICategory[]
   colors: IColor[]
 }

@@ -1,9 +1,6 @@
 'use client'
 
-import { useGetProducts } from '@/hooks/queries/products/useGetProducts'
 import { useParams } from 'next/navigation'
-import { IProductColumn, productColumns } from './ProductColumns'
-import { formatPrice } from '@/lib/string/formatPrice'
 import styles from '../Store.module.scss'
 import DataTableLoading from '@/components/ui/data-table/DataTableLoading'
 import Heading from '@/components/ui/Heading'
@@ -12,20 +9,25 @@ import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { STORE_URL } from '@/config/url.config'
 import DataTable from '@/components/ui/data-table/DataTable'
+import { useGetColor } from '@/hooks/queries/colors/useGetColor'
+import { IColor } from '@/types/color.interface'
+import { formatDate } from '@/lib/date/formatDate'
+import { ColorColumns } from './ColorColumns'
 
-export default function Products() {
+export default function Colors() {
   const params = useParams<{ storeId: string }>()
 
-  const {products, isLoading} = useGetProducts()
+  const {colors, isLoading} = useGetColor()
 
-  const formattedProducts: IProductColumn[] = products ? products.map(product => ({
-    id: product.id,
-    title: product.title,
-    price: formatPrice(product.price),
-    category: product.category.title,
-    color: product.color?.value || 'Без цвета',
-    storeId: product.storeId
-  })) : []
+  const formattedColors: IColor[] = colors
+		? colors.map(color => ({
+				id: color.id,
+				createdAt: formatDate(color.createdAt),
+				name: color.name,
+				value: color.value,
+				storeId: color.storeId
+			}))
+		: []
 
   return (
 		<div className={styles.wrapper}>
@@ -35,11 +37,11 @@ export default function Products() {
 				<>
 					<div className={styles.header}>
 						<Heading
-							title={`Товары (${products?.length})`}
-							description='Все товары вашего магазина'
+							title={`Цвета (${Colors?.length})`}
+							description='Все цвета вашего магазина'
 						/>
 						<div className={styles.buttons}>
-							<Link href={STORE_URL.productCreate(params.storeId)}>
+							<Link href={STORE_URL.colorCreate(params.storeId)}>
 								<Button variant={'primary'}>
 									<Plus />
 									Создать
@@ -49,9 +51,9 @@ export default function Products() {
 					</div>
 					<div className={styles.table}>
 						<DataTable
-							columns={productColumns}
-							data={formattedProducts}
-							filterKey='title'
+							columns={ColorColumns}
+							data={formattedColors}
+							filterKey='name'
 						/>
 					</div>
 				</>

@@ -10,9 +10,6 @@
       > svg {
         @apply size-5;
 
-        &:last-child {
-          @apply hover:animate-spin;
-        }
       }
       &.active {
         @apply text-sm text-primary-blue bg-primary-blue/20 hover:bg-primary-blue/20 hover:text-primary-blue/60;

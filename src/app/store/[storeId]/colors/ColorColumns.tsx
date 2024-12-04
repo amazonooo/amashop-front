@@ -1,22 +1,14 @@
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { PUBLIC_URL, STORE_URL } from '@/config/url.config'
+import { IColor } from '@/types/color.interface'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, ExternalLink, MoreHorizontal, Pencil } from 'lucide-react'
 import Link from 'next/link'
 
-export interface IProductColumn {
-  id: string
-  title: string
-  price: string
-  category: string
-  color: string
-  storeId: string
-}
-
-export const productColumns: ColumnDef<IProductColumn>[] = [
+export const ColorColumns: ColumnDef<IColor>[] = [
 	{
-		accessorKey: 'title',
+		accessorKey: 'name',
 		header: ({ column }) => {
 			return (
 				<Button
@@ -24,63 +16,49 @@ export const productColumns: ColumnDef<IProductColumn>[] = [
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
 					Название
-					<ArrowUpDown className='ml-2 size-4' />
+					<ArrowUpDown className='ml-2 h-4 w-4' />
 				</Button>
 			)
 		}
 	},
 	{
-		accessorKey: 'price',
+		accessorKey: 'value',
 		header: ({ column }) => {
 			return (
 				<Button
 					variant={'ghost'}
 					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 				>
-					Цена
-					<ArrowUpDown className='ml-2 size-4' />
-				</Button>
-			)
-		}
-	},
-	{
-		accessorKey: 'category',
-		header: ({ column }) => {
-			return (
-				<Button
-					variant={'ghost'}
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Категория
-					<ArrowUpDown className='ml-2 size-4' />
-				</Button>
-			)
-		}
-	},
-	{
-		accessorKey: 'color',
-		header: ({ column }) => {
-			return (
-				<Button
-					variant={'ghost'}
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Цвет
-					<ArrowUpDown className='ml-2 size-4' />
+					Значение
+					<ArrowUpDown className='ml-2 h-4 w-4' />
 				</Button>
 			)
 		},
 		cell: ({ row }) => (
 			<div className='flex items-center gap-x-3'>
-				{row.original.color}
+				{row.original.value}
 				<div
-					className='size-4 rounded-full border'
+					className='size-6 rounded-full border'
 					style={{
-						backgroundColor: row.original.color
+						backgroundColor: row.original.value
 					}}
 				/>
 			</div>
 		)
+	},
+	{
+		accessorKey: 'createdAt',
+		header: ({ column }) => {
+			return (
+				<Button
+					variant={'ghost'}
+					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+				>
+					Дата создания
+					<ArrowUpDown className='ml-2 h-4 w-4' />
+				</Button>
+			)
+		}
 	},
 	{
 		accessorKey: 'actions',
@@ -88,22 +66,19 @@ export const productColumns: ColumnDef<IProductColumn>[] = [
 		cell: ({ row }) => (
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant={'ghost'} className='w-8 h-8 p-0'>
+					<Button variant={'ghost'} className='h-8 w-8 p-0'>
 						<MoreHorizontal className='h-4 w-4' />
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align='end'>
 					<DropdownMenuLabel>Действия</DropdownMenuLabel>
-					<Link href={PUBLIC_URL.product(row.original.id)} target='_blank'>
-						<DropdownMenuItem className='cursor-pointer'>
-							<ExternalLink className='size-4 mr-2' />
-							Страница с продуктом
-						</DropdownMenuItem>
-					</Link>
 					<Link
-						href={STORE_URL.productEdit(row.original.storeId, row.original.id)}
+						href={STORE_URL.colorEdit(
+							row.original.storeId,
+							row.original.id
+						)}
 					>
-						<DropdownMenuItem className='cursor-pointer'>
+						<DropdownMenuItem>
 							<Pencil className='size-4 mr-2' />
 							Изменить
 						</DropdownMenuItem>
