@@ -29,7 +29,7 @@ export default function HeaderMenu() {
 					</Link>
           {user.stores.length ? (
             <Link href={STORE_URL.home(user.stores[0].id)}>
-              <Button variant={'ghost'}>Избранное</Button>
+              <Button variant={'ghost'}>Мои магазины</Button>
             </Link>
           ) : (
             <CreateStoreModal>

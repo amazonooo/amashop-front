@@ -15,7 +15,7 @@ export default function Catalog({title, description, linkTitle, link, products}:
       </div>
 
       <div className={styles.catalog}>
-        <div className={styles.procucts}>
+        <div className={styles.products}>
           {products.length ? (
             products.map(product => (
               <ProductCard key={product.id} procuct={product} />
