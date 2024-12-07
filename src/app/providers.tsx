@@ -3,6 +3,9 @@
 import { PropsWithChildren, useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from "react-hot-toast";
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistor, store } from '@/store/store'
+import { Provider } from 'react-redux'
 
 export function Providers({children}: PropsWithChildren) {
   const [client] = useState(
@@ -16,9 +19,13 @@ export function Providers({children}: PropsWithChildren) {
   )
 
   return (
-    <QueryClientProvider client={client}>
-      <Toaster />
-      {children}
-    </QueryClientProvider>
-  )
+		<QueryClientProvider client={client}>
+			<Provider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<Toaster />
+					{children}
+				</PersistGate>
+			</Provider>
+		</QueryClientProvider>
+	)
 }
