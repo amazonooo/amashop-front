@@ -204,7 +204,7 @@ export default function ProductForm({ product, categories, colors }: ProductForm
 								<FormLabel>Описание</FormLabel>
 								<FormControl>
 									<Textarea
-										placeholder='Описание магазина'
+										placeholder='Описание товара'
 										disabled={isLoadingUpdate || isLoadingCreate}
 										{...field}
 									/>
